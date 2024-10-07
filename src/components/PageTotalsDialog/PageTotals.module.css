@@ -1,0 +1,14 @@
+.TotalsContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.TotalsGridContainer {
+  display: grid;
+  grid-template-columns: 60px 100px;
+}
+
+.TotalsGridContainer div {
+  text-align: center;
+  border-bottom: 1px solid #484848;
+}

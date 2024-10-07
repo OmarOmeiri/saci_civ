@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  justify-content: center;
+  padding-top: 2rem;
+  height: 100%;
+}
+
+.TabContainer {
+  width: 90%;
+}
+
+.TabContent {
+  padding: 1rem;
+}

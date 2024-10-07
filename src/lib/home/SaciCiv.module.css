@@ -1,0 +1,45 @@
+.CivTableContainer {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.Table {
+  min-height: 100%;
+}
+
+.ClosedPagesContainer {
+  margin-top: 20px;
+}
+
+.CivPagesContainer {
+  display: flex;
+}
+
+
+.TotalsContainer {
+  display: flex;
+  width: -webkit-fill-available;
+  justify-content: center;
+  border-left: 1px solid #767676;
+}
+
+.TotalsGridContainer {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+}
+
+.TotalsGridContainer div {
+  min-width: 50px;
+  text-align: center;
+  border-left: 1px solid #484848;
+}
+
+.TotalsGridContainer div:nth-child(-n+10):nth-child(n+1) {
+  border-bottom: 1px solid #484848;
+}
+
+.TotalsGridContainer div:last-child,
+.TotalsGridContainer div:nth-child(10) {
+  border-right: 1px solid #484848;
+}
