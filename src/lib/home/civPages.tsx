@@ -28,7 +28,7 @@ export default function CivPages({
     setTotals(sumCivTotals(...Object.values(closedPages).map(getCivPageTotals)));
   }, [closedPages]);
 
-  if (!keys.length) return null;
+  if (!keys.length || !Object.keys(totals).length) return null;
 
   return (
     <div className={styles.ClosedPagesContainer}>

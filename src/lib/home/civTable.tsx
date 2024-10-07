@@ -1,8 +1,10 @@
 'use client';
 
 import { ColumnDef, RowSelectionState } from '@tanstack/react-table';
-import { useEffect, useRef, useState } from 'react';
-import { ArrowUpDown } from 'lucide-react';
+import {
+  useCallback, useEffect, useMemo, useRef, useState,
+} from 'react';
+import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 import dayjs from 'dayjs';
 import range from 'lodash/range';
 import { Checkbox } from '../../components/ui/checkbox';
@@ -12,13 +14,25 @@ import styles from './SaciCiv.module.css';
 import { Button } from '../../components/ui/button';
 import CivPages from './civPages';
 import PageTotalsDialog from '../../components/PageTotalsDialog/PageTotalsDialog';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../../components/ui/dropdown-menu';
 
 type Props = {
   saciData: SACIData[] | null,
   isMounted: boolean,
 }
 
-export const columns: ColumnDef<SACIData>[] = [
+export const getColumns = ({
+  onStartHereClick,
+}: {
+  onStartHereClick: (row: SACIData) => void
+}): ColumnDef<SACIData>[] => [
   {
     id: 'select',
     header: ({ table }) => (
@@ -136,6 +150,25 @@ export const columns: ColumnDef<SACIData>[] = [
     header: 'REG',
     cell: ({ row }) => <div>{row.original.reg}</div>,
   },
+  {
+    id: 'actions',
+    enableHiding: false,
+    cell: ({ row }) => (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-8 w-8 p-0">
+              <span className="sr-only">Open menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuLabel>Ações</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem onClick={() => onStartHereClick(row.original)}>Começar daqui</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+    ),
+  },
 ];
 
 const atIndex = <T, >(data: Array<T>, n: number | null) => {
@@ -165,6 +198,17 @@ export default function CivTable({
   useEffect(() => {
     setCivData(saciData);
   }, [saciData]);
+
+  const onStartHereClick = useCallback((row: SACIData) => {
+    if (!civData) return;
+    const ix = civData.findIndex((r) => r.id === row.id);
+    const rows = range(0, ix + 1).map((i) => civData[i]);
+    setRowSelection({});
+    setClosedPages({ 1: rows });
+    setPagination((pg) => ({ ...pg, pageIndex: 0 }));
+  }, [civData]);
+
+  const columns = useMemo(() => getColumns({ onStartHereClick }), [onStartHereClick]);
 
   const onPageClose = () => {
     if (
