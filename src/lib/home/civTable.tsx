@@ -196,7 +196,7 @@ export default function CivTable({
   }, [pagination.pageIndex]);
 
   useEffect(() => {
-    setCivData(saciData);
+    setCivData(saciData.filter(d => d.reg.toLowerCase().contains('cadastrado')));
   }, [saciData]);
 
   const onStartHereClick = useCallback((row: SACIData) => {
