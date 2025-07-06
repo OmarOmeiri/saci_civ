@@ -197,7 +197,7 @@ export default function SaciTable({
       const file = target.files?.item(0);
       if (!file) return;
       const sdata = await saciToData(file);
-      setSaciData(sdata.filter((d) => d.reg.toLowerCase().includes('cadastrado')));
+      setSaciData(sdata.filter((d) => d.reg.toLowerCase().includes('cadastrado') && d.acft.trim()));
     };
     input.click();
     input.remove();
