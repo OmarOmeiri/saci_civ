@@ -66,7 +66,7 @@ export const sumCivTotals = (...pages: CIVTotal[]) => {
     total: totalsCurrent.total - (pages[pages.length - 1]?.total || 0),
   };
 
-  const ret =  {
+  const ret = {
     current: totalsCurrent,
     last: totalsLast,
   };
