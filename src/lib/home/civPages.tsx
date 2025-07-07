@@ -12,7 +12,7 @@ export default function CivPages({
 }) {
   const keys = Object.keys(closedPages);
   const [totals, setTotals] = useState<CIVTotals>({
-      last: {
+    last: {
       ldg: 0,
       nav: 0,
       diu: 0,
@@ -24,7 +24,7 @@ export default function CivPages({
       cpl: 0,
       total: 0,
     },
-      current: {
+    current: {
       ldg: 0,
       nav: 0,
       diu: 0,
@@ -35,7 +35,7 @@ export default function CivPages({
       cmd: 0,
       cpl: 0,
       total: 0,
-    }
+    },
   });
 
   useEffect(() => {
