@@ -12,6 +12,7 @@ export default function CivPages({
 }) {
   const keys = Object.keys(closedPages);
   const [totals, setTotals] = useState<CIVTotals>({
+    last: {
     ldg: 0,
     nav: 0,
     diu: 0,
@@ -22,7 +23,19 @@ export default function CivPages({
     cmd: 0,
     cpl: 0,
     total: 0,
-  });
+  },
+    current: {
+    ldg: 0,
+    nav: 0,
+    diu: 0,
+    not: 0,
+    ifr: 0,
+    cpt: 0,
+    dc: 0,
+    cmd: 0,
+    cpl: 0,
+    total: 0,
+  }});
 
   useEffect(() => {
     setTotals(sumCivTotals(...Object.values(closedPages).map(getCivPageTotals)));
@@ -63,16 +76,26 @@ export default function CivPages({
             <div>CMD</div>
             <div>CPL</div>
             <div>TOT</div>
-            <div>{totals.ldg}</div>
-            <div>{totals.nav.toFixed(1)}</div>
-            <div>{totals.diu.toFixed(1)}</div>
-            <div>{totals.not.toFixed(1)}</div>
-            <div>{totals.ifr.toFixed(1)}</div>
-            <div>{totals.cpt.toFixed(1)}</div>
-            <div>{totals.dc.toFixed(1)}</div>
-            <div>{totals.cmd.toFixed(1)}</div>
-            <div>{totals.cpl.toFixed(1)}</div>
-            <div>{totals.total.toFixed(1)}</div>
+            <div>{totals.last.ldg}</div>
+            <div>{totals.last.nav.toFixed(1)}</div>
+            <div>{totals.last.diu.toFixed(1)}</div>
+            <div>{totals.last.not.toFixed(1)}</div>
+            <div>{totals.last.ifr.toFixed(1)}</div>
+            <div>{totals.last.cpt.toFixed(1)}</div>
+            <div>{totals.last.dc.toFixed(1)}</div>
+            <div>{totals.last.cmd.toFixed(1)}</div>
+            <div>{totals.last.cpl.toFixed(1)}</div>
+            <div>{totals.last.total.toFixed(1)}</div>
+            <div>{totals.current.ldg}</div>
+            <div>{totals.current.nav.toFixed(1)}</div>
+            <div>{totals.current.diu.toFixed(1)}</div>
+            <div>{totals.current.not.toFixed(1)}</div>
+            <div>{totals.current.ifr.toFixed(1)}</div>
+            <div>{totals.current.cpt.toFixed(1)}</div>
+            <div>{totals.current.dc.toFixed(1)}</div>
+            <div>{totals.current.cmd.toFixed(1)}</div>
+            <div>{totals.current.cpl.toFixed(1)}</div>
+            <div>{totals.current.total.toFixed(1)}</div>
           </div>
         </div>
       </div>

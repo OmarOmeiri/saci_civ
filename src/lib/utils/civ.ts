@@ -23,7 +23,7 @@ const getTimeType = (page: SACIData[]): {dc: number, cmd: number, cpl: number} =
   }, { dc: 0, cmd: 0, cpl: 0 })
 );
 
-export const getCivPageTotals = (page: SACIData[]): CIVTotals => {
+export const getCivPageTotals = (page: SACIData[]): CIVTotal => {
   const diu = getCivPageTotal(page, 'tDay');
   const not = getCivPageTotal(page, 'tNight');
   return {
@@ -38,8 +38,8 @@ export const getCivPageTotals = (page: SACIData[]): CIVTotals => {
   };
 };
 
-export const sumCivTotals = (...pages: CIVTotals[]) => (
-  pages.reduce((tot, pg) => ({
+export const sumCivTotals = (...pages: CIVTotal[]) => {
+  const totalsCurrent = pages.reduce((tot, pg) => ({
     ldg: (tot.ldg || 0) + pg.ldg,
     nav: (tot.nav || 0) + pg.nav,
     diu: (tot.diu || 0) + pg.diu,
@@ -50,5 +50,21 @@ export const sumCivTotals = (...pages: CIVTotals[]) => (
     cmd: (tot.cmd || 0) + pg.cmd,
     cpl: (tot.cpl || 0) + pg.cpl,
     total: (tot.total || 0) + pg.total,
-  }), {} as CIVTotals)
-);
+  }), {} as CIVTotals['current'])
+  const totalsLast = {
+    ldg: totalsCurrent.ldg - pages[pages.length - 1].ldg,
+    nav: totalsCurrent.nav - pages[pages.length - 1].nav,
+    diu: totalsCurrent.diu - pages[pages.length - 1].diu,
+    not: totalsCurrent.not - pages[pages.length - 1].not,
+    ifr: totalsCurrent.ifr - pages[pages.length - 1].ifr,
+    cpt: totalsCurrent.cpt - pages[pages.length - 1].cpt,
+    dc: totalsCurrent.dc - pages[pages.length - 1].dc,
+    cmd: totalsCurrent.cmd - pages[pages.length - 1].cmd,
+    cpl: totalsCurrent.cpl - pages[pages.length - 1].cpl,
+    total: totalsCurrent.total - pages[pages.length - 1].total,
+  }
+  return {
+    current: totalsCurrent,
+    last: totalsLast,
+  }
+};

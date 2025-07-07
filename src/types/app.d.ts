@@ -23,7 +23,7 @@ type SACIData = {
   excludedBy: string;
 }
 
-type CIVTotals = {
+type CIVTotal = {
   ldg: number,
   nav: number,
   diu: number,
@@ -34,4 +34,9 @@ type CIVTotals = {
   cmd: number,
   cpl: number,
   total: number
+}
+
+type CIVTotals = {
+  current: CIVTotal,
+  last: CIVTotal,
 }
