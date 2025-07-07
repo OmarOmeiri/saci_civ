@@ -12,30 +12,31 @@ export default function CivPages({
 }) {
   const keys = Object.keys(closedPages);
   const [totals, setTotals] = useState<CIVTotals>({
-    last: {
-    ldg: 0,
-    nav: 0,
-    diu: 0,
-    not: 0,
-    ifr: 0,
-    cpt: 0,
-    dc: 0,
-    cmd: 0,
-    cpl: 0,
-    total: 0,
-  },
-    current: {
-    ldg: 0,
-    nav: 0,
-    diu: 0,
-    not: 0,
-    ifr: 0,
-    cpt: 0,
-    dc: 0,
-    cmd: 0,
-    cpl: 0,
-    total: 0,
-  }});
+      last: {
+      ldg: 0,
+      nav: 0,
+      diu: 0,
+      not: 0,
+      ifr: 0,
+      cpt: 0,
+      dc: 0,
+      cmd: 0,
+      cpl: 0,
+      total: 0,
+    },
+      current: {
+      ldg: 0,
+      nav: 0,
+      diu: 0,
+      not: 0,
+      ifr: 0,
+      cpt: 0,
+      dc: 0,
+      cmd: 0,
+      cpl: 0,
+      total: 0,
+    }
+  });
 
   useEffect(() => {
     setTotals(sumCivTotals(...Object.values(closedPages).map(getCivPageTotals)));
