@@ -200,9 +200,7 @@ export default function SaciTable({
       setSaciData(sdata.filter((d) => (
         d.reg.trim().toLowerCase().includes('cadastrado')
         && d.acft.trim()
-        && !(
-          d.func.trim().toLowerCase() == 'instrutor de voo em solo'
-        )
+        && !(d.func.trim().toLowerCase() === 'instrutor de voo em solo')
       )));
     };
     input.click();
