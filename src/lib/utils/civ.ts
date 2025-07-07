@@ -39,6 +39,7 @@ export const getCivPageTotals = (page: SACIData[]): CIVTotal => {
 };
 
 export const sumCivTotals = (...pages: CIVTotal[]) => {
+  console.log('pages', pages);
   const totalsCurrent = pages.reduce((tot, pg) => ({
     ldg: (tot.ldg || 0) + pg.ldg,
     nav: (tot.nav || 0) + pg.nav,
@@ -65,8 +66,10 @@ export const sumCivTotals = (...pages: CIVTotal[]) => {
     total: totalsCurrent.total - (pages[pages.length - 1]?.total || 0),
   };
 
-  return {
+  const ret =  {
     current: totalsCurrent,
     last: totalsLast,
   };
+  console.log('ret', ret)
+  return ret;
 };
