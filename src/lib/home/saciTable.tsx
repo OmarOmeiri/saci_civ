@@ -197,7 +197,11 @@ export default function SaciTable({
       const file = target.files?.item(0);
       if (!file) return;
       const sdata = await saciToData(file);
-      setSaciData(sdata.filter((d) => d.reg.toLowerCase().includes('cadastrado') && d.acft.trim()));
+      setSaciData(sdata.filter((d) => (
+        d.reg.trim().toLowerCase().includes('cadastrado')
+        && d.acft.trim()
+        && !(d.func.trim().toLowerCase() == 'instrutor de voo em solo')
+      )));
     };
     input.click();
     input.remove();
