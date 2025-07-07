@@ -53,16 +53,16 @@ export const sumCivTotals = (...pages: CIVTotal[]) => {
   }), {} as CIVTotals['current']);
 
   const totalsLast = {
-    ldg: totalsCurrent.ldg - pages[pages.length - 1].ldg,
-    nav: totalsCurrent.nav - pages[pages.length - 1].nav,
-    diu: totalsCurrent.diu - pages[pages.length - 1].diu,
-    not: totalsCurrent.not - pages[pages.length - 1].not,
-    ifr: totalsCurrent.ifr - pages[pages.length - 1].ifr,
-    cpt: totalsCurrent.cpt - pages[pages.length - 1].cpt,
-    dc: totalsCurrent.dc - pages[pages.length - 1].dc,
-    cmd: totalsCurrent.cmd - pages[pages.length - 1].cmd,
-    cpl: totalsCurrent.cpl - pages[pages.length - 1].cpl,
-    total: totalsCurrent.total - pages[pages.length - 1].total,
+    ldg: totalsCurrent.ldg - (pages[pages.length - 1].ldg || 0),
+    nav: totalsCurrent.nav - (pages[pages.length - 1].nav || 0),
+    diu: totalsCurrent.diu - (pages[pages.length - 1].diu || 0),
+    not: totalsCurrent.not - (pages[pages.length - 1].not || 0),
+    ifr: totalsCurrent.ifr - (pages[pages.length - 1].ifr || 0),
+    cpt: totalsCurrent.cpt - (pages[pages.length - 1].cpt || 0),
+    dc: totalsCurrent.dc - (pages[pages.length - 1].dc || 0),
+    cmd: totalsCurrent.cmd - (pages[pages.length - 1].cmd || 0),
+    cpl: totalsCurrent.cpl - (pages[pages.length - 1].cpl || 0),
+    total: totalsCurrent.total - (pages[pages.length - 1].total || 0),
   };
 
   return {
