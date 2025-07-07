@@ -25,6 +25,10 @@ type SACIData = {
 
 type CIVTotal = {
   ldg: number,
+  mnte: number,
+  mlte: number,
+  typ: number,
+  instr: number,
   nav: number,
   diu: number,
   not: number,
@@ -39,4 +43,10 @@ type CIVTotal = {
 type CIVTotals = {
   current: CIVTotal,
   last: CIVTotal,
+}
+
+type ACFTTypes = {
+  reg: string;
+  tp: string;
+  tpc: string;
 }

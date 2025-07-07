@@ -1,16 +1,8 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
 import {
   Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
 } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
   Tabs,
   TabsContent,
@@ -25,6 +17,7 @@ import CivTable from '../lib/home/civTable';
 export default function Home() {
   const [activeTab, setActiveTab] = useState<string>('saci');
   const [saciData, setSaciData] = useState<SACIData[] | null>(null);
+  const [typeData, setTypeData] = useState<ACFTTypes[] | null>(null);
 
   return (
     <div className={styles.container}>
@@ -36,12 +29,12 @@ export default function Home() {
         </TabsList>
         <TabsContent value="saci" forceMount hidden={activeTab !== 'saci'}>
           <Card className={styles.TabContent}>
-            <SaciTable saciData={saciData} setSaciData={setSaciData}/>
+            <SaciTable saciData={saciData} setSaciData={setSaciData} setTypeData={setTypeData}/>
           </Card>
         </TabsContent>
         <TabsContent value="civ" forceMount hidden={activeTab !== 'civ'}>
           <Card className={styles.TabContent}>
-            <CivTable saciData={saciData} isMounted={activeTab === 'civ'}/>
+            <CivTable saciData={saciData} typeData={typeData} isMounted={activeTab === 'civ'}/>
           </Card>
         </TabsContent>
       </Tabs>

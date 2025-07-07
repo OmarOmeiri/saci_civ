@@ -25,6 +25,7 @@ import {
 
 type Props = {
   saciData: SACIData[] | null,
+  typeData: ACFTTypes[] | null,
   isMounted: boolean,
 }
 
@@ -178,6 +179,7 @@ const atIndex = <T, >(data: Array<T>, n: number | null) => {
 
 export default function CivTable({
   saciData,
+  typeData,
   isMounted,
 }: Props) {
   const [civData, setCivData] = useState(saciData);
@@ -328,7 +330,7 @@ export default function CivTable({
 
   return (
     <>
-      <PageTotalsDialog closedPage={lastClosedPage} setClosedPage={setLastClosedPage}/>
+      <PageTotalsDialog closedPage={lastClosedPage} typeData={typeData} setClosedPage={setLastClosedPage}/>
       <div className={styles.CivTableContainer}>
         <DataTable
           data={civData}
@@ -349,7 +351,7 @@ export default function CivTable({
             )
             : null
         }
-        <CivPages closedPages={closedPages} onClosedPageDelete={onClosedPageDelete}/>
+        <CivPages closedPages={closedPages} typeData={typeData} onClosedPageDelete={onClosedPageDelete}/>
       </div>
     </>
   );

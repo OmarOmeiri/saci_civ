@@ -13,16 +13,18 @@ import { useOnKeyPress } from '../../hooks/onKeyDown';
 
 export default function PageTotalsDialog({
   closedPage,
+  typeData,
   setClosedPage,
 }: {
-  closedPage: SACIData[] | null
+  closedPage: SACIData[] | null,
+  typeData: ACFTTypes[] | null,
   setClosedPage: React.Dispatch<React.SetStateAction<SACIData[] | null>>
 }) {
   const totals = useMemo(() => (
     closedPage
-      ? getCivPageTotals(closedPage)
+      ? getCivPageTotals(closedPage, typeData)
       : null
-  ), [closedPage]);
+  ), [closedPage, typeData]);
 
   useOnKeyPress((e) => {
     if (e.key === 'Enter' || e.key === 'Escape') {
@@ -42,6 +44,14 @@ export default function PageTotalsDialog({
                   <div className={styles.TotalsGridContainer}>
                     <div>LDG</div>
                     <div>{totals.ldg}</div>
+                    <div>MNTE</div>
+                    <div>{totals.mnte.toFixed(1)}</div>
+                    <div>MLTE</div>
+                    <div>{totals.mlte.toFixed(1)}</div>
+                    <div>TIPO</div>
+                    <div>{totals.typ.toFixed(1)}</div>
+                    <div>INSTR</div>
+                    <div>{totals.instr.toFixed(1)}</div>
                     <div>NAV</div>
                     <div>{totals.nav.toFixed(1)}</div>
                     <div>DIU</div>

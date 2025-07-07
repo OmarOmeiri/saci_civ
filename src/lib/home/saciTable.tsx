@@ -11,6 +11,7 @@ import { Button } from '../../components/ui/button';
 import { saciToData } from '../utils/saci';
 import { useOnKeyPress } from '../../hooks/onKeyDown';
 import styles from './SaciCiv.module.css';
+import rab from '../../../rabClean.json';
 
 export const columns: ColumnDef<SACIData>[] = [
   {
@@ -124,9 +125,11 @@ const atIndex = <T, >(data: Array<T>, n: number | null) => {
 export default function SaciTable({
   saciData,
   setSaciData,
+  setTypeData,
 }: {
   saciData: SACIData[] | null
   setSaciData: React.Dispatch<React.SetStateAction<SACIData[] | null>>
+  setTypeData: React.Dispatch<React.SetStateAction<ACFTTypes[] | null>>
 }) {
   const [highlightedRow, setHightlightedRow] = useState<number | null>(null);
   const tableRef = useRef<HTMLTableElement | null>(null);
@@ -186,6 +189,24 @@ export default function SaciTable({
     const hltRow = table.querySelector('tr[data-highlight="true"]');
     if (hltRow) hltRow.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   }, [highlightedRow]);
+
+  useEffect(() => {
+    if (!saciData) return;
+    const regs = saciData.reduce((t, d) => {
+      if (t.includes(d.acft)) return t;
+      t.push(d.acft);
+      return t;
+    }, [] as string[]);
+
+    const typeData: ACFTTypes[] = [];
+    for (const reg of regs) {
+      const foundRab = rab.find((r) => r.reg === reg);
+      if (!foundRab) return;
+      if (!(typeof foundRab.tp === 'string') || !(typeof foundRab.tpc === 'string')) return;
+      typeData.push(foundRab);
+    }
+    setTypeData(typeData);
+  }, [saciData, setTypeData]);
 
   const uploadSaciData = (e: React.MouseEvent) => {
     e.preventDefault();

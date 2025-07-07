@@ -1,33 +1,60 @@
+function removeDiacritics(str: string) {
+  return str.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+}
+
 const getCivPageTotal = (page: SACIData[], key: KeysMatching<SACIData, number>) => (
   page.reduce((a, b) => a + b[key], 0)
 );
 
-const getTimeType = (page: SACIData[]): {dc: number, cmd: number, cpl: number} => (
+const getCivPageTotalByType = (page: SACIData[], typeData: ACFTTypes[] | null) => {
+  if (!typeData) return { mnte: 0, mlte: 0, typ: 0 };
+  return page.reduce((t, d) => {
+    const found = typeData.find((td) => td.reg.trim().toLowerCase() === d.acft.trim().toLowerCase());
+    if (!found) throw new Error(`Não foi possivel definir o tipo da aeronave ${d.acft}`);
+    if (found.tp.toLowerCase().trim() === 'mnte') t.mnte += d.tTotal;
+    else if (found.tp.toLowerCase().trim() === 'mlte') t.mlte += d.tTotal;
+    else t.typ += d.tTotal;
+    return t;
+  }, { mnte: 0, mlte: 0, typ: 0 });
+};
+
+const getTimeType = (page: SACIData[]): {dc: number, cmd: number, cpl: number, instr: number} => (
   page.reduce((t, v) => {
-    const func = v.func.trim().toLowerCase();
+    const func = removeDiacritics(v.func.trim().toLowerCase());
     if (
       func === 'piloto em comando'
-      || func.includes('solo')
+      || func === 'instrutor voo'
+      || func === 'piloto em instrucao solo'
     ) {
       t.cmd += v.tTotal;
     } else if (
-      func.includes('instrutor')
-      || func.includes('instrução')
+      func.includes('observador')
+      || func === 'piloto em instrucao'
     ) {
       t.dc += v.tTotal;
     } else if (func.includes('co-piloto')) {
       t.cpl += v.tTotal;
     }
 
+    if (func === 'instrutor voo') {
+      t.instr += v.tTotal;
+    }
+
     return t;
-  }, { dc: 0, cmd: 0, cpl: 0 })
+  }, {
+    dc: 0,
+    cmd: 0,
+    cpl: 0,
+    instr: 0,
+  })
 );
 
-export const getCivPageTotals = (page: SACIData[]): CIVTotal => {
+export const getCivPageTotals = (page: SACIData[], typeData: ACFTTypes[] | null): CIVTotal => {
   const diu = getCivPageTotal(page, 'tDay');
   const not = getCivPageTotal(page, 'tNight');
   return {
     ldg: getCivPageTotal(page, 'ldg'),
+    ...getCivPageTotalByType(page, typeData),
     nav: getCivPageTotal(page, 'tNav'),
     diu,
     not,
@@ -38,10 +65,16 @@ export const getCivPageTotals = (page: SACIData[]): CIVTotal => {
   };
 };
 
-export const sumCivTotals = (...pages: CIVTotal[]) => {
-  console.log('pages', pages);
+export const sumCivTotals = (...pages: CIVTotal[]): {
+    current: CIVTotal;
+    last: CIVTotal;
+ } => {
   const totalsCurrent = pages.reduce((tot, pg) => ({
     ldg: (tot.ldg || 0) + pg.ldg,
+    mnte: (tot.mnte || 0) + pg.mnte,
+    mlte: (tot.mlte || 0) + pg.mlte,
+    typ: (tot.typ || 0) + pg.typ,
+    instr: (tot.instr || 0) + pg.instr,
     nav: (tot.nav || 0) + pg.nav,
     diu: (tot.diu || 0) + pg.diu,
     not: (tot.not || 0) + pg.not,
@@ -53,6 +86,10 @@ export const sumCivTotals = (...pages: CIVTotal[]) => {
     total: (tot.total || 0) + pg.total,
   }), {
     ldg: 0,
+    mnte: 0,
+    mlte: 0,
+    typ: 0,
+    instr: 0,
     nav: 0,
     diu: 0,
     not: 0,
@@ -66,6 +103,10 @@ export const sumCivTotals = (...pages: CIVTotal[]) => {
 
   const totalsLast = {
     ldg: totalsCurrent.ldg - (pages[pages.length - 1]?.ldg || 0),
+    mnte: totalsCurrent.mnte - (pages[pages.length - 1]?.mnte || 0),
+    mlte: totalsCurrent.mlte - (pages[pages.length - 1]?.mlte || 0),
+    typ: totalsCurrent.typ - (pages[pages.length - 1]?.typ || 0),
+    instr: totalsCurrent.instr - (pages[pages.length - 1]?.instr || 0),
     nav: totalsCurrent.nav - (pages[pages.length - 1]?.nav || 0),
     diu: totalsCurrent.diu - (pages[pages.length - 1]?.diu || 0),
     not: totalsCurrent.not - (pages[pages.length - 1]?.not || 0),
@@ -77,10 +118,8 @@ export const sumCivTotals = (...pages: CIVTotal[]) => {
     total: totalsCurrent.total - (pages[pages.length - 1]?.total || 0),
   };
 
-  const ret = {
+  return {
     current: totalsCurrent,
     last: totalsLast,
   };
-  console.log('ret', ret);
-  return ret;
 };

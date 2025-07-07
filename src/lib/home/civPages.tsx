@@ -5,15 +5,21 @@ import { getCivPageTotals, sumCivTotals } from '../utils/civ';
 
 export default function CivPages({
   closedPages,
+  typeData,
   onClosedPageDelete,
 }: {
   closedPages: Record<number, SACIData[]>
+  typeData: ACFTTypes[] | null
   onClosedPageDelete: (pg: number) => void
 }) {
   const keys = Object.keys(closedPages);
   const [totals, setTotals] = useState<CIVTotals>({
     last: {
       ldg: 0,
+      mnte: 0,
+      mlte: 0,
+      typ: 0,
+      instr: 0,
       nav: 0,
       diu: 0,
       not: 0,
@@ -26,6 +32,10 @@ export default function CivPages({
     },
     current: {
       ldg: 0,
+      mnte: 0,
+      mlte: 0,
+      typ: 0,
+      instr: 0,
       nav: 0,
       diu: 0,
       not: 0,
@@ -39,8 +49,8 @@ export default function CivPages({
   });
 
   useEffect(() => {
-    setTotals(sumCivTotals(...Object.values(closedPages).map(getCivPageTotals)));
-  }, [closedPages]);
+    setTotals(sumCivTotals(...Object.values(closedPages).map((d) => getCivPageTotals(d, typeData))));
+  }, [closedPages, typeData]);
 
   if (!keys.length || !Object.keys(totals).length) return null;
 
@@ -68,6 +78,10 @@ export default function CivPages({
         <div className={styles.TotalsContainer}>
           <div className={styles.TotalsGridContainer}>
             <div>LDG</div>
+            <div>MNTE</div>
+            <div>MLTE</div>
+            <div>TIPO</div>
+            <div>INSTR</div>
             <div>NAV</div>
             <div>DIU</div>
             <div>NOT</div>
@@ -78,6 +92,10 @@ export default function CivPages({
             <div>CPL</div>
             <div>TOT</div>
             <div>{totals.last.ldg}</div>
+            <div>{totals.last.mnte.toFixed(1)}</div>
+            <div>{totals.last.mlte.toFixed(1)}</div>
+            <div>{totals.last.typ.toFixed(1)}</div>
+            <div>{totals.last.instr.toFixed(1)}</div>
             <div>{totals.last.nav.toFixed(1)}</div>
             <div>{totals.last.diu.toFixed(1)}</div>
             <div>{totals.last.not.toFixed(1)}</div>
@@ -88,6 +106,10 @@ export default function CivPages({
             <div>{totals.last.cpl.toFixed(1)}</div>
             <div>{totals.last.total.toFixed(1)}</div>
             <div>{totals.current.ldg}</div>
+            <div>{totals.current.mnte.toFixed(1)}</div>
+            <div>{totals.current.mlte.toFixed(1)}</div>
+            <div>{totals.current.typ.toFixed(1)}</div>
+            <div>{totals.current.instr.toFixed(1)}</div>
             <div>{totals.current.nav.toFixed(1)}</div>
             <div>{totals.current.diu.toFixed(1)}</div>
             <div>{totals.current.not.toFixed(1)}</div>
