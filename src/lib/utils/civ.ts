@@ -70,6 +70,6 @@ export const sumCivTotals = (...pages: CIVTotal[]) => {
     current: totalsCurrent,
     last: totalsLast,
   };
-  console.log('ret', ret)
+  console.log('ret', ret);
   return ret;
 };
