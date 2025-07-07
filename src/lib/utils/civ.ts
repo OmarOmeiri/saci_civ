@@ -51,7 +51,18 @@ export const sumCivTotals = (...pages: CIVTotal[]) => {
     cmd: (tot.cmd || 0) + pg.cmd,
     cpl: (tot.cpl || 0) + pg.cpl,
     total: (tot.total || 0) + pg.total,
-  }), {} as CIVTotals['current']);
+  }), {
+    ldg: 0,
+    nav: 0,
+    diu: 0,
+    not: 0,
+    ifr: 0,
+    cpt: 0,
+    dc: 0,
+    cmd: 0,
+    cpl: 0,
+    total: 0,
+  } as CIVTotals['current']);
 
   const totalsLast = {
     ldg: totalsCurrent.ldg - (pages[pages.length - 1]?.ldg || 0),
