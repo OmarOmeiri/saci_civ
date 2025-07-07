@@ -50,7 +50,8 @@ export const sumCivTotals = (...pages: CIVTotal[]) => {
     cmd: (tot.cmd || 0) + pg.cmd,
     cpl: (tot.cpl || 0) + pg.cpl,
     total: (tot.total || 0) + pg.total,
-  }), {} as CIVTotals['current'])
+  }), {} as CIVTotals['current']);
+
   const totalsLast = {
     ldg: totalsCurrent.ldg - pages[pages.length - 1].ldg,
     nav: totalsCurrent.nav - pages[pages.length - 1].nav,
@@ -62,9 +63,10 @@ export const sumCivTotals = (...pages: CIVTotal[]) => {
     cmd: totalsCurrent.cmd - pages[pages.length - 1].cmd,
     cpl: totalsCurrent.cpl - pages[pages.length - 1].cpl,
     total: totalsCurrent.total - pages[pages.length - 1].total,
-  }
+  };
+
   return {
     current: totalsCurrent,
     last: totalsLast,
-  }
+  };
 };
