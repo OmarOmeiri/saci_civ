@@ -310,8 +310,8 @@ export default function CivTable({
             sel[n] = true;
             return sel;
           }, {} as RowSelectionState);
-          console.log('ret', ret);
-          return ret;
+        console.log('ret', ret);
+        return ret;
       });
     }
   });
