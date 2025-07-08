@@ -289,8 +289,10 @@ export default function CivTable({
       const index = hltRow.getAttribute('data-ix');
       if (index === null) return;
       const indexNum = Number(index) + rowStart;
+      console.log('indexNum', indexNum);
       setRowSelection((s) => {
         const copy = { ...s };
+        console.log('copy1', copy);
         if (index in s) {
           // const keysToDelete = Object.keys(s)
           //   .map(Number)
@@ -300,13 +302,16 @@ export default function CivTable({
           // });
           // return copy;
           delete copy[index];
+          console.log('copy2', copy);
           return copy;
         }
-        return range(0, indexNum + 1)
+        const ret = range(0, indexNum + 1)
           .reduce((sel, n) => {
             sel[n] = true;
             return sel;
           }, {} as RowSelectionState);
+          console.log('ret', ret);
+          return ret;
       });
     }
   });
