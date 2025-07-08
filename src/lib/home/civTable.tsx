@@ -293,7 +293,7 @@ export default function CivTable({
       setRowSelection((s) => {
         const copy = { ...s };
         console.log('copy1', copy);
-        if (index in s) {
+        if (Object.keys(copy).map(Number).includes(indexNum)) {
           // const keysToDelete = Object.keys(s)
           //   .map(Number)
           //   .filter((ix) => ix >= indexNum);
