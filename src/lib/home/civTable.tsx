@@ -301,7 +301,8 @@ export default function CivTable({
           //   delete copy[k];
           // });
           // return copy;
-          delete copy[index];
+          console.log('deleteIx', String(indexNum));
+          delete copy[String(indexNum)];
           console.log('copy2', copy);
           return copy;
         }
