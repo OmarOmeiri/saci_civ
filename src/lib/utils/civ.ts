@@ -36,7 +36,10 @@ const getTimeType = (page: SACIData[]): {dc: number, cmd: number, cpl: number, i
       t.cpl += v.tTotal;
     }
 
-    if (func === 'instrutor voo') {
+    if (
+      func === 'instrutor voo'
+      || func.includes('observador')
+    ) {
       t.instr += v.tTotal;
     }
 
